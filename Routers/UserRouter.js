@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require("../modules/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const user = await User.findOne({ email: email });
@@ -44,6 +44,8 @@ router.post("/register", async (req, res) => {
     contact: req.body.contact,
     email: req.body.email,
     password: hashedPassword,
+    hospitalName: req.body.hospitalName,
+    address: req.body.address,
   });
   user
     .save()
@@ -59,7 +61,5 @@ router.post("/register", async (req, res) => {
         .send({ error: error.errors[keys[0]].message, target: keys[0] });
     });
 });
-
-
 
 module.exports = router;
